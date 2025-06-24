@@ -4,8 +4,6 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import LoginPage from "@pages/LoginPage";
 import RegisterPage from "@pages/RegisterPage";
 import DashboardPage from "@pages/DashboardPage";
-import EditProfilePage from "@pages/EditProfilePage";
-import EditVehiclePage from "@pages/EditVehiclePage";
 import NotFoundPage from "@pages/NotFoundPage";
 
 export const router = createBrowserRouter([
@@ -32,15 +30,7 @@ export const router = createBrowserRouter([
 					{
 						path: "dashboard",
 						element: <DashboardPage />
-					},
-					{
-						path: "profile/edit",
-						element: <EditProfilePage />
-					},
-					{
-						path: "vehicle/edit",
-						element: <EditVehiclePage />
-					}],
+					},],
 			},
 			{
 				path: "*",

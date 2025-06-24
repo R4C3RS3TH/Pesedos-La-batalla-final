@@ -1,7 +1,6 @@
 import { useAuthContext } from "@contexts/AuthContext";
 import { LoginRequest } from "@interfaces/auth/LoginRequest";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { FaGoogle } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
@@ -66,7 +65,6 @@ export default function LoginForm() {
             </div>
 
             <button id="LoginGoogle" className="bg-white text-black w-full flex justify-center items-center gap-4 mx-6 py-2 px-4 rounded-lg cursor-pointer shadow-sm" onClick={() => { alert("WAZAAAA ALERT :bbbb") }}>
-                <FaGoogle />
                 Ingresar con Google
             </button>
             {error && <div style={{ color: "red" }}>{error}</div>}

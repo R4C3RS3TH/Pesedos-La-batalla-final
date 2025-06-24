@@ -1,43 +1,38 @@
 import { useAuthContext } from "@contexts/AuthContext";
 import { RegisterRequest } from "@interfaces/auth/RegisterRequest";
-import { ChangeEvent, FormEvent } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+/*
 interface RegisterFormProps {
     formData: RegisterRequest;
     setFormData: (value: RegisterRequest) => void;
     setVehicleRegister: (value: boolean) => void;
 }
+*/
 
-export default function RegisterForm(props: RegisterFormProps) {
+export default function RegisterForm() {//props: RegisterFormProps) {
     const { register } = useAuthContext();
     const navigate = useNavigate();
+    const [formData, setFormData] = useState<RegisterRequest>({
+        email: "",
+        password: "",
+    });
 
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
         e.preventDefault();
-        props.setFormData({
-            ...props.formData,
+        setFormData({
+            ...formData,
             [e.target.name]: e.target.value,
         });
-        if (e.target.name === "isDriver") {
-            props.setFormData({
-                ...props.formData,
-                isDriver: e.target.value === "true",
-            });
-        }
     }
 
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        console.log(props.formData);
-
-        if (props.formData.isDriver) {
-            props.setVehicleRegister(true);
-        } else {
-            await register(props.formData);
-            navigate("/dashboard");
-        }
+        console.log(formData);
+        await register(formData);
+        navigate("/dashboard");
     }
 
     return (
@@ -45,31 +40,8 @@ export default function RegisterForm(props: RegisterFormProps) {
             <h1 className="text-2xl font-bold">Registrarse a Uber</h1>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">Nombres</label>
-                    <input
-                        type="text"
-                        name="firstName"
-                        id="firstName"
-                        value={props.formData.firstName}
-                        onChange={handleChange}
-                        className="w-full border border-gray-600 rounded-md p-2 bg-transparent"
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">Apellidos</label>
-                    <input
-                        type="text"
-                        name="lastName"
-                        id="lastName"
-                        value={props.formData.lastName}
-                        onChange={handleChange}
-                        className="w-full border border-gray-600 rounded-md p-2 bg-transparent"
-                    />
-                </div>
-                <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input type="email" name="email" id="email" value={props.formData.email} onChange={handleChange} className="w-full border border-gray-600 bg-transparent rounded-md p-2" />
+                    <input type="email" name="email" id="email" value={formData.email} onChange={handleChange} className="w-full border border-gray-600 bg-transparent rounded-md p-2" />
                 </div>
                 <div>
                     <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
@@ -77,37 +49,11 @@ export default function RegisterForm(props: RegisterFormProps) {
                         type="password"
                         name="password"
                         id="password"
-                        value={props.formData.password}
+                        value={formData.password}
                         onChange={handleChange}
+                        required
                         className="w-full border border-gray-600 bg-transparent rounded-md p-2"
                     />
-                </div>
-                <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Celular</label>
-                    <input type="text" name="phone" id="phone" value={props.formData.phone} onChange={handleChange} className="w-full border border-gray-600 rounded-md p-2 bg-transparent" />
-                </div>
-                <div>
-                    <label htmlFor="isDriver" className="block text-sm font-medium text-gray-700 mb-1">¿Eres Conductor?</label>
-                    <input
-                        type="radio"
-                        name="isDriver"
-                        id="driver"
-                        value="true"
-                        checked={props.formData.isDriver}
-                        onChange={handleChange}
-                        className=""
-                    />{" "}
-                    Sí
-                    <input
-                        type="radio"
-                        name="isDriver"
-                        id="passenger"
-                        value="false"
-                        checked={!props.formData.isDriver}
-                        onChange={handleChange}
-                        className=""
-                    />{" "}
-                    No
                 </div>
                 <button
                     id="registerSubmit"
